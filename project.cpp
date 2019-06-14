@@ -40,7 +40,7 @@ class Semester: public Student{
 
 
 //Constructor Definitions
-Student::Student(): branchName("No Info"){
+Student::Student(){
     
     //Constructor to print and ask for student branch
     std::cout << "Select a Branch" << endl;
