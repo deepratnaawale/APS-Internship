@@ -206,7 +206,11 @@ void Semester::getMarks(){
             failFlag = 1;
         
         if(paperUniversity[i] < 0 || pracExt[i] < 0 || pracIntr[i] < 0 || paperUniversity[i] > 50 || pracExt[i] > 25 || pracIntr[i] > 25){
-            cout << "\n\n*******************************************************************\n\nYou have entered invalid marks !\nPlease re-enter the marks\n\n*******************************************************************\n\n" << setw(35) << std::left << sem_Subjects[i]; cin  >> setw(10) >> std::right >> paperUniversity[i] >> setw(10) >> std::right >> pracExt[i] >> setw(10) >> std::right >> pracIntr[i];
+            cout << "\n\n*******************************************************************\n"<<endl;
+            cout<< "You have entered invalid marks !"<<endl;
+            cout <<"Please re-enter the marks"<<endl;
+            cout<< "\n*******************************************************************\n"<<endl; 
+            cout << setw(35) << std::left << sem_Subjects[i]; cin  >> setw(10) >> std::right >> paperUniversity[i] >> setw(10) >> std::right >> pracExt[i] >> setw(10) >> std::right >> pracIntr[i];
         }
         
         
