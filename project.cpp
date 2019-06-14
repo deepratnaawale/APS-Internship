@@ -8,25 +8,33 @@
 //Includes
 #include<iostream>
 #include<iomanip>
+#include<string>
+#include<stdlib.h>
 
 using namespace std;
 
 
 //Class Declarations
 class Student{
-    protected:
+    private:
         int choice;
-        char branchName[100], studentName[20], dob[10], mobile[10], registerationNo[15], year;
+        std::string branchName, studentName, dob, mobile, registerationNo, year;
     public:
         Student();
         void getInfo(void);
         void displayInfo(void);
 };
 
+/* class Semester{
+    private:
+        std::string sem1_Subjects[5], sem2_Subjects[5], sem3_Subjects[5], sem4_Subjects[5], sem5_Subjects[5], sem6_Subjects[5], sem7_Subjects[5], sem8_Subjects[5];
+        int marks;   
+    public:
 
+}; */
 //Constructor Definitions
-Student::Student(){
-    branchName= "No Info", studentName = "No Info", dob = "No Info", mobile = "No Info", registerationNo = "No Info", year = 'N';
+Student::Student(): branchName("No Info"){
+    
     //Constructor to print and ask for student branch
     cout << "Select a Branch" << endl;
     //print branch choices menu
@@ -52,20 +60,23 @@ Student::Student(){
 //Class Methods
 void Student::getInfo(){
     //Function to get student information from console
-    std::cout << "Name: " << std::endl; cin>>name;
-    std::cout << "DOB: " << std::endl; cin>>dob;
-    std::cout << "Mobile No: " << std::endl; cin>>mobile;
-    std::cout << "Year: " << std::endl; cin>>name;
+    std::cout  << std::endl << "Name: "; cin>>studentName;
+    std::cout  << std::endl << "Registeration Number: "; cin>>registerationNo;
+    std::cout  << std::endl << "DOB: "; cin>>dob;
+    std::cout  << std::endl << "Mobile No: "; cin>>mobile;
+    std::cout  << std::endl << "Year: "; cin>>year;
+    system("cls");
 }
 
 
 void Student::displayInfo(){
     //Function to print student information on console
-    std::cout << "Name: " << name << std::endl; 
+    std::cout << "Name: " << studentName << std::endl; 
     std::cout << "DOB: " << dob << std::endl; 
     std::cout << "Mobile No: " << mobile << std::endl; 
     std::cout << "Year: " << year << std::endl;
     std::cout << "Branch: " << branchName << std::endl;
+    system("cls");
 }
 
 
@@ -75,18 +86,19 @@ int main(){
     
     //Object initialization
     Student student;
+    do{
+        //Printing menu on console
+        std::cout << std::endl <<"1. Register" << std::endl;
+        std::cout << "2. Display Info" << std::endl << std::endl;
+        std::cin >> switch_on; 
+        //Switch for menu
+        switch (switch_on){
+            case 1: student.getInfo(); break;
+            case 2: student.displayInfo(); break;
+            default: std::cout << "Invalid choice" << std::endl; break;
+        }
+    } while(switch_on == 1 || switch_on == 2);
     
-    //Printing menu on console
-    std::cout << "1. Register" << std::endl;
-    std::cout << "2. Display Info" << std::endl;
-    
-    //Switch for menu
-    switch (switch_on){
-        case 1: student.getInfo(); break;
-        case 2: student.displayInfo(); break;
-        default: std::cout << "Invalid choice" << std::endl; break;
-    }
-
 
     return 0;
 }
