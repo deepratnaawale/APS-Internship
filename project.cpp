@@ -14,14 +14,16 @@
 
 using namespace std;
 
+void line(void){
+    cout<<"-----";
+}
 
 //Class Declarations
 class Student{
     protected:
-        
+        int branchCode;
         std::string branchName, studentName, dob, mobile, registerationNo, year;
     public:
-        int branchCode;
         Student();
         void getInfo(void);
         void displayInfo(void);
@@ -30,12 +32,15 @@ class Student{
 
 class Semester: public Student{
     private:
-        int marks[5], totalAll, universityTotal, externalTotal, internalTotal;   
-    public:
+        int paperUniversity[5], pracExt[5], pracIntr[5], universityTotal, externalTotal, internalTotal, failFlag;   
+        int totalAll;
         int selectSem;
         std::string sem_Subjects[5];
+    public:
+        
         void setSubject(void);
         void getMarks(void);
+        void showResult(void);
 };
 
 
@@ -98,12 +103,12 @@ void Semester::setSubject(){
     /*
         * Every semester switch has a sub switch dictated by the branchCode (due to difference in subjects for every branch).
         *  branchCodes are as listed below.
-        1. Computer Science Engineering.
-        2. Electronics and Communication Engineering.
-        3. Electrical engineering.
-        4. Mechanical Engineering.
-        5. Information Technology Engineering.
-        6. Civil Engineering.
+            1. Computer Science Engineering.
+            2. Electronics and Communication Engineering.
+            3. Electrical engineering.
+            4. Mechanical Engineering.
+            5. Information Technology Engineering.
+            6. Civil Engineering.
     */
  
     /* Year 2 ***********************************************************************************************************************************************************************************/ 
@@ -179,25 +184,73 @@ void Semester::setSubject(){
                 default: cout << "Invalid Branch"; break;
             }break;
     /*******************************************************************************************************************************************************************************************/    
-        default: std::cout << "LMAO"; break;
-} 
+        default: std::cout << "Invalid Semester."; break;
+    } 
 
 }
 
 void Semester::getMarks(){
     int i;
-    cout << "Enter your marks for the given subjects: " << std::endl << std::endl;
-    cout << setw(35) << std::left << "Subject Name" << "\t" << setw(3) << std::left <<"Marks" << std::endl;
+    Semester::universityTotal = 0, Semester::externalTotal = 0, Semester::internalTotal = 0;
+    failFlag = 0;
+    cout << "Enter your marks for the given subjects: " << std::endl;
+    cout << "Press Enter after inputing PI "<< std::endl << std::endl;
+    
+    cout << setw(35) << std::left << "Subject Name" << setw(10) << std::left <<"TU(50)" << setw(10) << std::left << "PU(25)" << setw(10) << std::left << "PI(25)" << std::endl;
     for (i = 0; i < 5; i++){
-        cout << setw(35) << std::left << sem_Subjects[i] << "\t" << setw(3) << std::left;
-        cin >> marks[i];
+        cout << setw(35) << std::left << sem_Subjects[i] << "\t"; cin  >> setw(10) >> std::right >> paperUniversity[i] >> setw(10) >> std::right >> pracExt[i] >> setw(10) >> std::right >> pracIntr[i];
+        // Total of all marks
+        universityTotal += paperUniversity[i]; externalTotal += pracExt[i]; internalTotal += pracIntr[i];
+        // Fail Check
+        if(paperUniversity[i] < 25 || pracExt[i] < 15 || pracIntr[i] < 15)
+            failFlag = 1;
+        
+        if(paperUniversity[i] < 0 || pracExt[i] < 0 || pracIntr[i] < 0 || paperUniversity[i] > 50 || pracExt[i] > 25 || pracIntr[i] > 25){
+            cout << "\n\n*******************************************************************\n\nYou have entered invalid marks !\nPlease re-enter the marks\n\n*******************************************************************\n\n" << setw(35) << std::left << sem_Subjects[i]; cin  >> setw(10) >> std::right >> paperUniversity[i] >> setw(10) >> std::right >> pracExt[i] >> setw(10) >> std::right >> pracIntr[i];
+        }
+        
+        
     }
 }
 
+void Semester::showResult(){
+    int i, lineCounter;
+    Student::displayInfo();
+    totalAll = universityTotal + externalTotal + internalTotal; 
+    cout << endl << endl;
+    
+    //header
+    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
+    cout<< "|" << setw(10) << std:: right << "Sr No." << "|" << setw(35) << std:: left << "Subject" << "|" << setw(10) << std:: right << "TU(50)" << "|"<< setw(10) << std:: right << "PU(25)" << "|" << setw(10) << std:: right << "PI(25)" << " |" << endl;
+    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
+    
+    //Results
+    for(i = 0; i < 5; i++){
+        //Format : |sem_Subjects|paperUniversity|pracExt|pracIntr|
+        cout<< "|" << setw(10) << std:: right << i+1; cout<< "|" << setw(35) << std:: left << sem_Subjects[i] << "|" << setw(10) << std:: right << paperUniversity[i] << "|" << setw(10) << std:: right << pracExt[i] << "|" << setw(10) << std:: right << pracIntr[i] << " |" << endl;
+        //line
+        cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
+    }
+    
+    //Footer
+    cout<<endl<<endl;//spacing
+    //Lables
+    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
+    cout<< "|" << setw(15) << std:: left << "Result" << "|" << setw(15) << std:: left << "TU Tot(250)" << "|"<< setw(15) << std:: left << "PU Tot(125)" << "|" << setw(15) << std:: left << "PI Tot(125)" << "|" << setw(15) << std:: right << "Total(500)" << " |" << endl;
+    //mid line
+    cout<< "|"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "|" << endl;
+    //vars
+    if(failFlag == 1)
+        cout<< "|" << setw(15) << std:: left << "Fail"  << "|" << setw(15) << std:: left << universityTotal << "|"<< setw(15) << std:: left << externalTotal << "|" << setw(15) << std:: left << internalTotal << "|" << setw(15) << std:: right << totalAll << " |" << endl;
+    else
+        cout<< "|" << setw(15) << std:: left << "Pass"  << "|" << setw(15) << std:: left << universityTotal << "|"<< setw(15) << std:: left << externalTotal << "|" << setw(15) << std:: left << internalTotal << "|" << setw(15) << std:: right << totalAll << " |" << endl;
+    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
+
+}
 
 int main(){
     //Variable declaration
-    int mainMenuChoice, i, selectSem;
+    int mainMenuChoice;
     
     //Object initialization
      Semester sem;
@@ -216,10 +269,11 @@ int main(){
             case 1: sem.getInfo(); break;
             case 2: sem.displayInfo(); break;
             case 3: sem.setSubject(); sem.getMarks();break;
-            default: std::cout << std::endl << "Invalid Choice" << std::endl << std::endl; break;
+            case 4: sem.showResult();break;
+            default: cout << endl << "Invalid Choice" << endl << endl; break;
         
         }
-    } while(mainMenuChoice == 1 || mainMenuChoice == 2);//Continue till invalid input 
+    } while(mainMenuChoice == 1 || mainMenuChoice == 2 || mainMenuChoice == 3 || mainMenuChoice == 4 ); //Continue till valid input 
     
     return 0;
 }
