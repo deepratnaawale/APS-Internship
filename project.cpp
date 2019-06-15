@@ -14,11 +14,24 @@
 
 using namespace std;
 
+//function to draw a line
 void line(void){
     cout<<"-----";
 }
 
-//Class Declarations
+//function to draw starfilled line
+void starline(void){
+    cout<<"*****";
+}
+
+
+
+
+/*
+    Class Declarations
+*/
+
+//Parent Class
 class Student{
     protected:
         int branchCode;
@@ -30,6 +43,8 @@ class Student{
         
 };
 
+
+//Child Class of Student
 class Semester: public Student{
     private:
         int paperUniversity[5], pracExt[5], pracIntr[5], universityTotal, externalTotal, internalTotal, failFlag;   
@@ -44,19 +59,27 @@ class Semester: public Student{
 };
 
 
-//Constructor Definitions
+/* 
+    Constructor Definitions:
+        * Student::Student();
+*/
+
+/** Student::Student() ********************************************************************************/
 Student::Student(){
     
-    //Constructor to print and ask for student branch
+    //Ask for student branch
     std::cout << "Select a Branch" << endl;
-    //print branch choices menu
+    
+    //Print branch choices menu
     cout << "\n1. Computer Science Engineering.\n2. Electronics and Communication Engineering.\n3. Electrical engineering.\n4. Mechanical Engineering.\n5. Information Technology Engineering.\n6. Civil Engineering.\n" << endl;
-    cin>>branchCode; //Scan for entered number
+    cin>>branchCode; //Scan for entered branch number Example: 1 is branchCode of Computer Science Engineering 
+    
     /* 
     * Switch case for assigning branch to Student::branchName wrt Student::choice.
     * choice is in int
     * branchName is used in displayInfo()
     */
+
     switch (branchCode){
         case 1: branchName = "Computer Science Engineering"; break;
         case 2: branchName = "Electronics and Communication Engineering"; break;
@@ -69,7 +92,16 @@ Student::Student(){
 }
 
 
-//Class Methods
+/*
+ Class Methods:
+    * void Student::getInfo();
+    * void Student::displayInfo();
+    * void Semester::setSubject();
+    * void Semester::getMarks();
+    * void Semester::showResult();
+*/
+
+/** getInfo() ************************************************************************************/
 void Student::getInfo(){
     //Function to get student information from console
     std::cout  << std::endl << "Name: "; cin>>studentName;
@@ -80,6 +112,8 @@ void Student::getInfo(){
     system("cls");
 }
 
+
+/** displayInfo() ********************************************************************************/
 void Student::displayInfo(){
     //Function to print student information on console
     system("cls");
@@ -90,6 +124,8 @@ void Student::displayInfo(){
     std::cout << "Branch: " << branchName << std::endl;
 }
 
+
+/** getSubject() ********************************************************************************/
 void Semester::setSubject(){
     //Function to set 
     system("cls");
@@ -111,7 +147,11 @@ void Semester::setSubject(){
             6. Civil Engineering.
     */
  
+    
+    
     /* Year 2 ***********************************************************************************************************************************************************************************/ 
+    
+    
     case 3: 
         switch (branchCode)
         {
@@ -136,7 +176,10 @@ void Semester::setSubject(){
             default: cout << "Invalid Branch"; break;
         }break;
      
+    
     /* Year 3 *********************************************************************************************************************************************************************************/
+    
+    
     case 5: 
         switch (branchCode)
         {
@@ -161,6 +204,7 @@ void Semester::setSubject(){
             }break;
      
     /* Year 4 *********************************************************************************************************************************************************************************/
+    
         case 7: 
             switch (branchCode){
                 case 1:  sem_Subjects[0] = "Data Warehousing and Mining",  sem_Subjects[1] = "LP",  sem_Subjects[2] = "E I",  sem_Subjects[3] = "E II",  sem_Subjects[4] = "Project"; break;
@@ -183,83 +227,143 @@ void Semester::setSubject(){
                 case 6:  sem_Subjects[0] = "S1",  sem_Subjects[1] = "S2",  sem_Subjects[2] = "S3",  sem_Subjects[3] = "S4", sem_Subjects[4] = "S5"; break;
                 default: cout << "Invalid Branch"; break;
             }break;
+    
+    
     /*******************************************************************************************************************************************************************************************/    
+    
         default: std::cout << "Invalid Semester."; break;
     } 
 
 }
 
+
+/** getMarks() ********************************************************************************/
 void Semester::getMarks(){
     int i;
     Semester::universityTotal = 0, Semester::externalTotal = 0, Semester::internalTotal = 0;
     failFlag = 0;
     cout << "Enter your marks for the given subjects: " << std::endl;
     cout << "Press Enter after inputing PI "<< std::endl << std::endl;
+    cout << std::endl;
+    cout << setw(35) << std::left << "Subject Name";
+    cout << setw(10) << std::left <<"TU(50)";
+    cout << setw(10) << std::left << "PU(25)";
+    cout << setw(10) << std::left << "PI(25)";
+    cout << std::endl;
     
-    cout << setw(35) << std::left << "Subject Name" << setw(10) << std::left <<"TU(50)" << setw(10) << std::left << "PU(25)" << setw(10) << std::left << "PI(25)" << std::endl;
     for (i = 0; i < 5; i++){
-        cout << setw(35) << std::left << sem_Subjects[i] << "\t"; cin  >> setw(10) >> std::right >> paperUniversity[i] >> setw(10) >> std::right >> pracExt[i] >> setw(10) >> std::right >> pracIntr[i];
+        cout << setw(35) << std::left << sem_Subjects[i]; 
+        cin  >> paperUniversity[i] >> pracExt[i] >> pracIntr[i];
+    
         // Total of all marks
         universityTotal += paperUniversity[i]; externalTotal += pracExt[i]; internalTotal += pracIntr[i];
+        
         // Fail Check
         if(paperUniversity[i] < 25 || pracExt[i] < 15 || pracIntr[i] < 15)
             failFlag = 1;
         
+        //Mark Validity
         if(paperUniversity[i] < 0 || pracExt[i] < 0 || pracIntr[i] < 0 || paperUniversity[i] > 50 || pracExt[i] > 25 || pracIntr[i] > 25){
             cout << "\n\n*******************************************************************\n"<<endl;
-            cout<< "You have entered invalid marks !"<<endl;
-            cout <<"Please re-enter the marks"<<endl;
-            cout<< "\n*******************************************************************\n"<<endl; 
-            cout << setw(35) << std::left << sem_Subjects[i]; cin  >> setw(10) >> std::right >> paperUniversity[i] >> setw(10) >> std::right >> pracExt[i] >> setw(10) >> std::right >> pracIntr[i];
+            cout << "You have entered invalid marks!" << endl;
+            cout << "Please re-enter the marks" << endl;
+            cout << "\n*******************************************************************\n"<<endl; 
+            cout << setw(35) << std::left << sem_Subjects[i];
+            cin  >> paperUniversity[i] >> pracExt[i] >> pracIntr[i];
         }
         
         
     }
 }
 
+/** showResults() *****************************************************************************/
 void Semester::showResult(){
     int i, lineCounter;
     Student::displayInfo();
     totalAll = universityTotal + externalTotal + internalTotal; 
     cout << endl << endl;
     
-    //header
-    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
-    cout<< "|" << setw(10) << std:: right << "Sr No." << "|" << setw(35) << std:: left << "Subject" << "|" << setw(10) << std:: right << "TU(50)" << "|"<< setw(10) << std:: right << "PU(25)" << "|" << setw(10) << std:: right << "PI(25)" << " |" << endl;
-    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
+    // Header
+    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;//line
+    cout << "|";
+    cout << setw(10) << std:: right << "Sr No." << "|";
+    cout << setw(35) << std:: left << "Subject" << "|";
+    cout << setw(10) << std:: right << "TU(50)" << "|";
+    cout << setw(10) << std:: right << "PU(25)" << "|";
+    cout << setw(10) << std:: right << "PI(25)";
+    cout << " |" << endl;
+    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;//line
+    // end of Header
     
-    //Results
+    //Results (Content)
     for(i = 0; i < 5; i++){
         //Format : |sem_Subjects|paperUniversity|pracExt|pracIntr|
-        cout<< "|" << setw(10) << std:: right << i+1; cout<< "|" << setw(35) << std:: left << sem_Subjects[i] << "|" << setw(10) << std:: right << paperUniversity[i] << "|" << setw(10) << std:: right << pracExt[i] << "|" << setw(10) << std:: right << pracIntr[i] << " |" << endl;
-        //line
-        cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
+        cout<< "|";
+        cout << setw(10) << std:: right << i+1 << "|" ;
+        cout << setw(35) << std:: left << sem_Subjects[i] << "|";
+        cout << setw(10) << std:: right << paperUniversity[i] << "|";
+        cout << setw(10) << std:: right << pracExt[i] << "|";
+        cout << setw(10) << std:: right << pracIntr[i];
+        cout << " |" << endl;
+        
+        cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;//line
     }
-    
+    //end of Results
+
     //Footer
     cout<<endl<<endl;//spacing
+    
     //Lables
-    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
-    cout<< "|" << setw(15) << std:: left << "Result" << "|" << setw(15) << std:: left << "TU Tot(250)" << "|"<< setw(15) << std:: left << "PU Tot(125)" << "|" << setw(15) << std:: left << "PI Tot(125)" << "|" << setw(15) << std:: right << "Total(500)" << " |" << endl;
+    cout << "**"; for(lineCounter = 0; lineCounter <16; lineCounter++) starline(); cout<< "**" << endl;
+    cout << "* ";
+    cout << setw(15) << std:: left << "Result" << "|";
+    cout << setw(15) << std:: left << "TU Tot(250)" << "|";
+    cout << setw(15) << std:: left << "PU Tot(125)" << "|";
+    cout << setw(15) << std:: left << "PI Tot(125)" << "|";
+    cout << setw(15) << std:: right << "Total(500)";
+    cout << "  *" << endl;
+    //end of Lables
+
     //mid line
-    cout<< "|"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "|" << endl;
-    //vars
-    if(failFlag == 1)
-        cout<< "|" << setw(15) << std:: left << "Fail"  << "|" << setw(15) << std:: left << universityTotal << "|"<< setw(15) << std:: left << externalTotal << "|" << setw(15) << std:: left << internalTotal << "|" << setw(15) << std:: right << totalAll << " |" << endl;
-    else
-        cout<< "|" << setw(15) << std:: left << "Pass"  << "|" << setw(15) << std:: left << universityTotal << "|"<< setw(15) << std:: left << externalTotal << "|" << setw(15) << std:: left << internalTotal << "|" << setw(15) << std:: right << totalAll << " |" << endl;
-    cout<< "+"; for(lineCounter = 0; lineCounter <16; lineCounter++) line(); cout<< "+" << endl;
+    cout<< "**"; for(lineCounter = 0; lineCounter <16; lineCounter++) starline(); cout<< "**" << endl;
+    
+    //Values
+    if(failFlag == 1){
+        cout<< "* ";
+        cout << setw(15) << std:: left << "Fail"  << "|";
+        cout << setw(15) << std:: left << universityTotal << "|";
+        cout << setw(15) << std:: left << externalTotal << "|";
+        cout << setw(15) << std:: left << internalTotal << "|";
+        cout << setw(15) << std:: right << totalAll;
+        cout << "  *" << endl;
+    }else{
+        cout << "* ";
+        cout << setw(15) << std:: left << "Pass"  << "|";
+        cout << setw(15) << std:: left << universityTotal << "|";
+        cout << setw(15) << std:: left << externalTotal << "|";
+        cout << setw(15) << std:: left << internalTotal << "|";
+        cout << setw(15) << std:: right << totalAll;
+        cout << "  *" << endl;
+    }
+    // end of Values
+    cout<< "**"; for(lineCounter = 0; lineCounter <16; lineCounter++) starline(); cout<< "**" << endl;
 
 }
 
+
+/* 
+    main function
+*/
 int main(){
     //Variable declaration
     int mainMenuChoice;
     
     //Object initialization
-     Semester sem;
+    Semester sem;//Calls constructor Student()
+    
     do{
         std::cout << std::endl;
+        
         //Printing main menu on console
         std::cout << "1. Register" << std::endl;
         std::cout << "2. Display Info" << std::endl;
