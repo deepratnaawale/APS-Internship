@@ -127,7 +127,7 @@ void Student::displayInfo(){
 
 /** getSubject() ********************************************************************************/
 void Semester::setSubject(){
-    //Function to set 
+    //Function to manually set subject names to string array sem_Subjects[] per sem per branch
     system("cls");
     std::cout << "Please Enter the Semester number: " << std::endl;
     std::cin >> selectSem;
